@@ -43,7 +43,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
       await audioService.init();
 
       // Trigger settings load to apply volume settings early
-      ref.read(settingsProvider);
+      setState(() => _loadingText = "LOADING CONFIGURATIONS...");
+      await ref.read(settingsProvider.notifier).initialized;
 
       setState(() => _loadingText = "READY!");
       await Future.delayed(const Duration(milliseconds: 500));

@@ -28,12 +28,21 @@ class _MainMenuScreenState extends ConsumerState<MainMenuScreen> {
 
   Future<void> _fetchUsedSlots() async {
     setState(() => _loadingSlots = true);
-    final slots = await ref.read(saveServiceProvider).getUsedSlots();
-    if (mounted) {
-      setState(() {
-        _usedSlots = slots;
-        _loadingSlots = false;
-      });
+    try {
+      final slots = await ref.read(saveServiceProvider).getUsedSlots();
+      if (mounted) {
+        setState(() {
+          _usedSlots = slots;
+          _loadingSlots = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _usedSlots = const [];
+          _loadingSlots = false;
+        });
+      }
     }
   }
 

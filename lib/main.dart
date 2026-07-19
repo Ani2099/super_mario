@@ -2,14 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'ui/router.dart';
 import 'constants/colors.dart';
+import 'services/save_service.dart';
+import 'services/audio_service.dart';
+import 'features/game_state_provider.dart';
 
-void main() {
+void main() async {
   // Ensure widget binding is initialized before we run async operations in Splash
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize concrete services
+  final saveService = HiveSaveService();
+  await saveService.init();
+
+  final audioService = FlameAudioService();
+  await audioService.init();
+
   runApp(
-    const ProviderScope(
-      child: AntigravityApp(),
+    ProviderScope(
+      overrides: [
+        saveServiceProvider.overrideWithValue(saveService),
+        audioServiceProvider.overrideWithValue(audioService),
+      ],
+      child: const AntigravityApp(),
     ),
   );
 }
