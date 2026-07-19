@@ -6,6 +6,7 @@ import '../../../constants/colors.dart';
 import '../../../audio/audio_assets.dart';
 import '../../game_state_provider.dart';
 import '../../../engine/base_game.dart';
+import '../../../ui/widgets/virtual_controls.dart';
 
 class GamePlayScreen extends ConsumerStatefulWidget {
   const GamePlayScreen({super.key});
@@ -77,6 +78,10 @@ class _GamePlayScreenState extends ConsumerState<GamePlayScreen> {
               game: _game,
             ),
           ),
+
+          // Virtual Controls Touchscreen Overlay
+          if (ref.watch(settingsProvider).useVirtualJoystick)
+            VirtualControls(game: _game),
 
           // HUD Overlay
           Positioned(
