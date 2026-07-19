@@ -27,16 +27,21 @@ class _MainMenuScreenState extends ConsumerState<MainMenuScreen> {
   }
 
   Future<void> _fetchUsedSlots() async {
+    print('👾 [MainMenu] _fetchUsedSlots() started');
     setState(() => _loadingSlots = true);
     try {
+      print('👾 [MainMenu] _fetchUsedSlots() calling saveServiceProvider.getUsedSlots()');
       final slots = await ref.read(saveServiceProvider).getUsedSlots();
+      print('👾 [MainMenu] _fetchUsedSlots() getUsedSlots() returned: $slots');
       if (mounted) {
         setState(() {
           _usedSlots = slots;
           _loadingSlots = false;
         });
+        print('👾 [MainMenu] _fetchUsedSlots() successfully updated slot selection UI');
       }
-    } catch (e) {
+    } catch (e, stack) {
+      print('👾 [MainMenu] _fetchUsedSlots() caught error: $e\n$stack');
       if (mounted) {
         setState(() {
           _usedSlots = const [];

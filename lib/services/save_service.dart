@@ -69,11 +69,22 @@ class HiveSaveService implements SaveService {
 
   @override
   Future<List<int>> getUsedSlots() async {
+    print('👾 [SaveService] getUsedSlots() started');
     final usedSlots = <int>[];
-    for (int i = 1; i <= 3; i++) {
-      if (_progressBox.containsKey('slot_$i')) {
-        usedSlots.add(i);
+    try {
+      print('👾 [SaveService] Checking keys in progressBox');
+      for (int i = 1; i <= 3; i++) {
+        final key = 'slot_$i';
+        final contains = _progressBox.containsKey(key);
+        print('👾 [SaveService] Slot $i check: containsKey($key)=$contains');
+        if (contains) {
+          usedSlots.add(i);
+        }
       }
+      print('👾 [SaveService] getUsedSlots() completed successfully: $usedSlots');
+    } catch (e, stack) {
+      print('👾 [SaveService] getUsedSlots() CRASHED: $e\n$stack');
+      rethrow;
     }
     return usedSlots;
   }
