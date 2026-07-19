@@ -87,6 +87,12 @@ class ProgressNotifier extends StateNotifier<GameProgress?> {
         _loadSlot(next);
       }
     });
+
+    // Load initial slot if one is already selected when this provider is created
+    final initialSlot = _ref.read(activeSlotProvider);
+    if (initialSlot != null) {
+      _loadSlot(initialSlot);
+    }
   }
 
   Future<void> _loadSlot(int slot) async {
