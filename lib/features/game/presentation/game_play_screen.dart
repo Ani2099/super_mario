@@ -45,6 +45,19 @@ class _GamePlayScreenState extends ConsumerState<GamePlayScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final activeSlot = ref.watch(activeSlotProvider);
+
+    // Guard: If no save slot is selected, redirect back to menu!
+    if (activeSlot == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.go('/menu');
+      });
+      return const Scaffold(
+        backgroundColor: GameColors.darkBackground,
+        body: Center(child: CircularProgressIndicator(color: GameColors.accentGreen)),
+      );
+    }
+
     final progress = ref.watch(progressProvider);
 
     if (progress == null) {
