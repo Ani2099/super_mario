@@ -37,7 +37,7 @@ class SettingsScreen extends ConsumerWidget {
       ),
       body: Center(
         child: Container(
-          maxWidth: 600,
+          constraints: const BoxConstraints(maxWidth: 600),
           margin: const EdgeInsets.all(24),
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
